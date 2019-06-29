@@ -1,4 +1,4 @@
-#before_hooks=("install_common_dev")
+#before_hooks=("pre_install_common_dev")
 after_hooks=("install_common_dev")
 
 modify_ipython_version() {
@@ -17,10 +17,12 @@ install_common_dev() {
 
   if [ "$STATUS" == "0" ]; then
     PIPEXEC="${PYENV_ROOT}/versions/${VERSION_NAME}/bin/pip"
-	REQUIREMENT="`dirname $BASH_SOURCE`/requirements.txt"
-	if [ -x "$PIPEXEC" ]; then
-        modify_ipython_version "$REQUIREMENT" | "$PIPEXEC" install --upgrade
-	fi
+    REQUIREMENT="`dirname $BASH_SOURCE`/requirements.txt"
+    if [ -x "$PIPEXEC" ]; then
+        REAL_REQUIREMENT="/tmp/requirements_$RANDOM.txt"
+        modify_ipython_version "$REQUIREMENT" > $REAL_REQUIREMENT
+        "$PIPEXEC" install --upgrade -r $REAL_REQUIREMENT
+    fi
   fi
 
   echo "done install common development dependencies"
