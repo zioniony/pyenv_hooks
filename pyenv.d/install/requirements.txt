@@ -8,8 +8,8 @@ hy
 pipenv
 epc
 importmagic
-#yapf
-#jedi>=0.9.0
+yapf
+jedi>=0.9.0
 #python-language-server[all]
 #ptvsd
 json-rpc>=1.8.1
